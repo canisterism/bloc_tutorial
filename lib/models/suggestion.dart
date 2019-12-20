@@ -1,19 +1,17 @@
 import 'dart:collection';
 import 'package:english_words/english_words.dart';
 
-final Suggestion suggestion = Suggestion(); //何のためにこうしてるのか、これがどう使われるのかさっぱり分からん
+final Suggestion suggestion = Suggestion();
 
 class Suggestion {
   final List<WordPair> _suggestedWords = <WordPair>[];
 
-  Suggestion(); // これはホンマに何
+  Suggestion();
 
-  // クラスメソッド？
   Suggestion.clone(Suggestion suggestion) {
-    _suggestedWords.addAll(suggestion._suggestedWords); // シンプルに分からん
+    _suggestedWords.addAll(suggestion._suggestedWords);
   }
 
-  // get の宣言必要なのか？
   int get suggestionCount => _suggestedWords.length;
 
   UnmodifiableListView<WordPair> get suggestedWords =>
