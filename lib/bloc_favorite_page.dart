@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:bloc_tutorial/models/word_item.dart';
 import 'package:bloc_tutorial/word_provider.dart';
 
-class BlockFavoritePage extends StatelessWidget {
-  BlockFavoritePage();
+class BlocFavoritePage extends StatelessWidget {
+  BlocFavoritePage();
 
   static const routeName = "/favorite";
   @override
