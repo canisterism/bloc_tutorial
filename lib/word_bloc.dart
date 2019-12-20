@@ -31,7 +31,7 @@ class WordBloc {
   final StreamController<WordRemoval> _wordRemovalController =
       StreamController<WordRemoval>();
 
-  WordBlock() {
+  WordBloc() {
     _wordAdditionController.stream.listen((addition) {
       int currentCount = _word.itemCount;
       _word.add(addition.name); // List.add()

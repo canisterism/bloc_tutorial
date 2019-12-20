@@ -8,13 +8,15 @@ class WordProvider extends InheritedWidget {
     Key key,
     WordBloc wordBloc,
     Widget child,
-  }) : wordBloc = wordBloc ?? WordBloc(),
-       super(key: key, child: child);
+  })  : wordBloc = wordBloc ?? WordBloc(),
+        super(key: key, child: child);
 
   @override
   bool updateShouldNotify(InheritedWidget oldWidget) => true;
 
   // なにこれ of とは staticとは dependOnInheritedWidgetOfExactTypeとは
   static WordBloc of(BuildContext context) =>
-    (context.dependOnInheritedWidgetOfExactType(WordProvider) as WordProvider).wordBloc
+      (context.dependOnInheritedWidgetOfExactType(aspect: WordProvider)
+              as WordProvider)
+          .wordBloc;
 }
