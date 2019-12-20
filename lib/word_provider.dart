@@ -16,7 +16,5 @@ class WordProvider extends InheritedWidget {
 
   // なにこれ of とは staticとは dependOnInheritedWidgetOfExactTypeとは
   static WordBloc of(BuildContext context) =>
-      (context.dependOnInheritedWidgetOfExactType(aspect: WordProvider)
-              as WordProvider)
-          .wordBloc;
+      (context.dependOnInheritedWidgetOfExactType<WordProvider>()).wordBloc;
 }
