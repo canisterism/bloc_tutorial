@@ -21,13 +21,13 @@ class BlocFavoritePage extends StatelessWidget {
             }
             final tiles = snapShot.data.map((item) {
               return ListTile(
-                title: new Text(item.name),
+                title: Text(item.name),
               );
             });
             final divided =
                 ListTile.divideTiles(context: context, tiles: tiles).toList();
 
-            return new ListView(children: divided);
+            return ListView(children: divided);
           },
         ));
   }

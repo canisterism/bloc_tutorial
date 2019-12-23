@@ -53,10 +53,10 @@ class RandomWordsHomePage extends StatelessWidget {
 class WordList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return new ListView.builder(
+    return ListView.builder(
       padding: const EdgeInsets.all(16.0),
       itemBuilder: (context, i) {
-        if (i.isOdd) return new Divider();
+        if (i.isOdd) return Divider();
         final index = i ~/ 2;
         if (index >= suggestion.suggestionCount) {
           const addNum = 10;
@@ -70,7 +70,7 @@ class WordList extends StatelessWidget {
 }
 
 Widget _buildRow(WordBloc word, WordPair pair) {
-  return new StreamBuilder<List<WordItem>>(
+  return StreamBuilder<List<WordItem>>(
       stream: word.items,
       builder: (_, snapShot) {
         if (snapShot.data == null || snapShot.data.isEmpty) {
@@ -86,9 +86,9 @@ Widget _buildRow(WordBloc word, WordPair pair) {
 }
 
 ListTile _createWordListTile(WordBloc word, bool isFavorited, String title) {
-  return new ListTile(
-      title: new Text(title),
-      trailing: new Icon(
+  return ListTile(
+      title: Text(title),
+      trailing: Icon(
         isFavorited ? Icons.favorite : Icons.favorite_border,
         color: isFavorited ? Colors.red : null,
       ),

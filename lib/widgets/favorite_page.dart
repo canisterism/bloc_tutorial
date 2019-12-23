@@ -10,15 +10,15 @@ class FavoritePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tiles = word.items.map((item) {
-      return new ListTile(title: new Text(item.name));
+      return ListTile(title: Text(item.name));
     });
 
     final divided = ListTile.divideTiles(
       context: context,
       tiles: tiles,
     ).toList();
-    return new Scaffold(
+    return Scaffold(
         appBar: AppBar(title: Text("Your Favorite")),
-        body: new ListView(children: divided));
+        body: ListView(children: divided));
   }
 }
