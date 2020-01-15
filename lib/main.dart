@@ -12,6 +12,12 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   final CounterRepository repository = CounterRepository();
 
+  // static _MyHomePageState of(BuildContext context, {bool rebuild = true}) {
+  //   if (rebuild) {
+  //     return context.dependOnInheritedWidgetOfExactType<_MyInheritedWidget>().data;
+  //   }
+  // }
+
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
@@ -65,7 +71,9 @@ class Widget1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text('$counter'));
+    print('Widget1 was build');
+    final _MyHomePageState state = _MyHomePage.of(context);
+    return Center(child: Text('$state.counter'));
   }
 }
 
@@ -77,14 +85,11 @@ class Widget2 extends StatelessWidget {
 }
 
 class Widget3 extends StatelessWidget {
-  final void Function() incrementCounter;
-
-  Widget3(this.incrementCounter);
-
   @override
   Widget build(BuildContext context) {
+    final _MyHomePageState state = MyHomePage.of(context, rebuild: false);
     return FloatingActionButton(
-      onPressed: incrementCounter,
+      onPressed: state._increment(),
       child: Icon(Icons.add),
     );
   }
