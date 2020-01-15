@@ -5,81 +5,74 @@ void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(title: 'my app', home: MyHomePage());
+    return MaterialApp(
+        title: 'my app',
+        home: _HomePage(
+          child: Scaffold(
+            appBar: AppBar(
+              title: Text('my app'),
+            ),
+            body: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Widget1(),
+                Widget2(),
+                Widget3(),
+              ],
+            ),
+          ),
+        ));
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  final CounterRepository repository = CounterRepository();
+class _HomePage extends StatefulWidget {
+  _HomePage({Key key, this.child}) : super(key: key);
 
-  // static _MyHomePageState of(BuildContext context, {bool rebuild = true}) {
-  //   if (rebuild) {
-  //     return context.dependOnInheritedWidgetOfExactType<_MyInheritedWidget>().data;
-  //   }
-  // }
+  final Widget child;
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _HomePageState createState() => _HomePageState();
+
+  static _HomePageState of(BuildContext context, {bool rebuild = true}) {
+    if (rebuild) {
+      return (context.dependOnInheritedWidgetOfExactType<_MyInheritedWidget>())
+          .data;
+    }
+    return (context
+            .getElementForInheritedWidgetOfExactType<_MyInheritedWidget>()
+            .widget as _MyInheritedWidget)
+        .data;
+  }
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-  bool _isLoading = false;
+class _HomePageState extends State<_HomePage> {
+  int counter = 0;
 
-  void _increment() async {
+  void _increment() {
     setState(() {
-      _isLoading = true;
+      counter++;
     });
-    await widget.repository.fetch().then((increaseCount) {
-      setState(() {
-        _counter += increaseCount;
-      });
-    }).whenComplete(
-      () => setState(
-        () {
-          _isLoading = false;
-        },
-      ),
-    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Stack(children: <Widget>[
-      Scaffold(
-        appBar: AppBar(
-          title: Text('my app'),
-        ),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            Widget1(_counter),
-            Widget2(),
-            Widget3(_increment),
-          ],
-        ),
-      ),
-      LoadingWidget(_isLoading)
-    ]);
+    return _MyInheritedWidget(child: widget.child, data: this);
   }
 }
 
 class Widget1 extends StatelessWidget {
-  final int counter;
-
-  Widget1(this.counter);
-
   @override
   Widget build(BuildContext context) {
     print('Widget1 was build');
-    final _MyHomePageState state = _MyHomePage.of(context);
-    return Center(child: Text('$state.counter'));
+    final _HomePageState state = _HomePage.of(context);
+    return Center(child: Text('${state.counter}'));
   }
 }
 
 class Widget2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    print('Widget2 was build');
     return Text("I'm a Widget that shouldn't be rebuilt");
   }
 }
@@ -87,9 +80,10 @@ class Widget2 extends StatelessWidget {
 class Widget3 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final _MyHomePageState state = MyHomePage.of(context, rebuild: false);
+    print('Widget3 was build');
+    final _HomePageState state = _HomePage.of(context, rebuild: false);
     return FloatingActionButton(
-      onPressed: state._increment(),
+      onPressed: () => state._increment(),
       child: Icon(Icons.add),
     );
   }
@@ -116,5 +110,17 @@ class CounterRepository {
     return Future<int>.delayed(const Duration(seconds: 1)).then((_) {
       return 1;
     });
+  }
+}
+
+class _MyInheritedWidget extends InheritedWidget {
+  _MyInheritedWidget({Key key, Widget child, this.data})
+      : super(key: key, child: child);
+
+  final _HomePageState data;
+
+  @override
+  bool updateShouldNotify(InheritedWidget oldWidget) {
+    return true;
   }
 }
